@@ -1,5 +1,7 @@
 # Kaiser
 
+> TUI NoteBookLM Alternative
+
 A Rust terminal workspace for learning from your sources. Import PDFs, documents, and images, ask questions with source citations, review flashcards, and write Markdown notes.
 
 ![Kaiser home screen with the logo and six notebooks](docs/screenshots/home.png)
