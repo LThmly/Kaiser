@@ -1,0 +1,12 @@
+# Kaiser Glacier — Cool charcoal and icy cyan.
+base = "kaiser-tallgeese"
+
+background = "#101B20"
+panel = "#17262C"
+border = "#324D56"
+foreground = "#DCECEF"
+muted = "#93AFB7"
+accent = "#91D5DF"
+success = "#A2D6BF"
+warning = "#E0C899"
+selection = "#28424B"

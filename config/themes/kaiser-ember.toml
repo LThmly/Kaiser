@@ -1,0 +1,12 @@
+# Kaiser Ember — Warm charcoal and orange.
+base = "kaiser-tallgeese"
+
+background = "#171211"
+panel = "#211816"
+border = "#4D342C"
+foreground = "#E8D8C5"
+muted = "#AA8E7C"
+accent = "#FF985B"
+success = "#B5C78F"
+warning = "#EDC07D"
+selection = "#493025"

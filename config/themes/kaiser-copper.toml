@@ -1,0 +1,12 @@
+# Kaiser Copper — Espresso and burnished copper.
+base = "kaiser-tallgeese"
+
+background = "#201916"
+panel = "#2A201B"
+border = "#574237"
+foreground = "#EDDDCC"
+muted = "#AD9583"
+accent = "#DBA06F"
+success = "#ADC18C"
+warning = "#E4C181"
+selection = "#4A3528"

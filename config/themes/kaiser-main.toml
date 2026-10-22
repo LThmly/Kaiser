@@ -1,0 +1,16 @@
+# Kaiser Main: black, white, and muted rose-grey details.
+# Neutral focus extends the welcome screen's quiet styling to every workspace.
+# Terminal transparency is controlled by [ui].transparent_background.
+base = "kaiser-tallgeese"
+background = "#000000"
+panel = "#000000"
+border = "#49383C"
+foreground = "#FFFFFF"
+muted = "#92878A"
+accent = "#FFFFFF"
+success = "#C8BFC1"
+warning = "#BFA9AE"
+selection = "#30282B"
+
+# Keep the original quiet home-page border.
+home_border = "#49383C"

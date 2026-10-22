@@ -1,0 +1,14 @@
+# Kaiser Tallgeese — exact colors from your Helix Tallgeese palette.
+# Pure black and white, coral focus, rose/blush details.
+# Edit any #RRGGBB color and run :theme-reload to apply it.
+base = "kaiser-tallgeese"
+
+background = "#000000" # black / ui.background
+panel = "#000000"      # black / ui.popup
+border = "#49383C"     # border / ui.window
+foreground = "#FFFFFF" # white / ui.text
+muted = "#92878A"      # muted / ui.text.inactive
+accent = "#F7475E"     # coral / ui.bufferline.active
+success = "#F2BEC5"    # blush / diff.plus; selected sources and approved flashcards
+warning = "#FF7889"    # coral-light; card drafts and prompts
+selection = "#48232D"  # selection / ui.menu.selected

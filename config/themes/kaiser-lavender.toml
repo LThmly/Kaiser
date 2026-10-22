@@ -1,0 +1,12 @@
+# Kaiser Lavender — The original cool lavender palette.
+base = "kaiser-tallgeese"
+
+background = "#11131A"
+panel = "#171A23"
+border = "#353B4D"
+foreground = "#DDE1ED"
+muted = "#8993AB"
+accent = "#B9A6FF"
+success = "#93D4B3"
+warning = "#E6C384"
+selection = "#2F2B42"

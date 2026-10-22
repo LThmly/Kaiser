@@ -1,0 +1,11 @@
+# Kaiser Bagels: charcoal surfaces, quiet greys, and muted purple focus.
+base = "kaiser-bagels"
+background = "#101010"
+panel = "#101010"
+border = "#404040"
+foreground = "#D8D8D0"
+muted = "#777777"
+accent = "#A580C4"
+success = "#A4B39A"
+warning = "#B9AA8A"
+selection = "#302538"

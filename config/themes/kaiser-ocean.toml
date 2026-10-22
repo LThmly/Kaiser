@@ -1,0 +1,12 @@
+# Kaiser Ocean — Navy and clear blue.
+base = "kaiser-tallgeese"
+
+background = "#0D1822"
+panel = "#122130"
+border = "#29465D"
+foreground = "#D5E5F0"
+muted = "#88A4BA"
+accent = "#65BCE0"
+success = "#80C9BD"
+warning = "#E6C58B"
+selection = "#203C53"

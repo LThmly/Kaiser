@@ -1,0 +1,12 @@
+# Kaiser Orchid — Plum and muted pink.
+base = "kaiser-tallgeese"
+
+background = "#1E1521"
+panel = "#291C2D"
+border = "#503553"
+foreground = "#EEDFED"
+muted = "#B39AB1"
+accent = "#DA9BCC"
+success = "#A8D1AE"
+warning = "#E4BF91"
+selection = "#462C48"

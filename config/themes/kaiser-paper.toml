@@ -1,0 +1,12 @@
+# Kaiser Paper — Light ivory and ink blue.
+base = "kaiser-tallgeese"
+
+background = "#FAF9F5"
+panel = "#FFFFFF"
+border = "#CFCEC7"
+foreground = "#303239"
+muted = "#747772"
+accent = "#516DA4"
+success = "#4B7C62"
+warning = "#9C712D"
+selection = "#E5E9F0"

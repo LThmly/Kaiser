@@ -1,0 +1,12 @@
+# Kaiser Sandstone — Light parchment and terracotta.
+base = "kaiser-tallgeese"
+
+background = "#F2E8D5"
+panel = "#FFF5E3"
+border = "#CBB99B"
+foreground = "#463B2E"
+muted = "#89765C"
+accent = "#A85F32"
+success = "#557653"
+warning = "#9B762B"
+selection = "#E6D5B8"

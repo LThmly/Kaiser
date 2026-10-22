@@ -1,0 +1,12 @@
+# Kaiser Violet — Violet and soft lavender.
+base = "kaiser-tallgeese"
+
+background = "#1A1624"
+panel = "#231D30"
+border = "#493B5E"
+foreground = "#E6DCF0"
+muted = "#AA97B9"
+accent = "#BD9AE3"
+success = "#A5C9AD"
+warning = "#DFBD8F"
+selection = "#3C2D50"

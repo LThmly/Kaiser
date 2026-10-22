@@ -1,0 +1,43 @@
+# Kaiser reads this from ~/.config/kaiser/config.toml (or $XDG_CONFIG_HOME).
+# Use --config PATH to keep a separate configuration; --check-config validates it.
+# Omitted settings use the defaults shown here. Unknown settings are errors.
+theme = "kaiser-tallgeese"
+
+[keys]
+# Press and release the leader, then a command key. Example: Space f selects notebooks.
+leader = "space"
+
+[ui]
+sidebar = true
+# Use the terminal background for every theme and UI surface.
+transparent_background = false
+
+[editor]
+# Empty: use $VISUAL, then $EDITOR, then helix. Array entries are literal argv.
+# command = ["helix"]
+# command = ["code", "--wait"]
+command = []
+
+[model]
+# For ChatGPT account sign-in, use :login in Kaiser; no credentials go here.
+# Optional OpenAI-compatible connection. Environment variables override these.
+# api_url = "http://localhost:1234/v1"
+# model = "your-loaded-model"
+# Keep credentials in an environment variable, not in this file.
+api_key_env = "KAISER_API_KEY"
+
+[model.usage]
+# Hard UTF-8 byte budgets; these are not exact token counts.
+max_input_bytes = 24000
+history_bytes = 8000
+source_bytes = 12000
+# Maximum requests for a complete multi-stage summary; reviewed before sending.
+max_summary_requests = 16
+# A prompt target; the ChatGPT route does not support a hard output-token cap.
+answer_words = 150
+# Count all inference attempts, including failures. Resets at midnight UTC.
+# Set to 0 to disable Kaiser's local daily cap.
+daily_request_limit = 50
+# Session-only answer cache; set either value to 0 to disable.
+cache_entries = 64
+cache_ttl_hours = 24

@@ -1,0 +1,16 @@
+{
+  "description": "Synthetic test token signed with a disposable key. Not an OpenAI credential. Private key discarded.",
+  "token": "eyJhbGciOiJSUzI1NiIsImtpZCI6ImthaXNlci10ZXN0LW9ubHkifQ.eyJpc3MiOiJodHRwczovL2F1dGgub3BlbmFpLmNvbSIsImF1ZCI6Im9haWFwcF9maXh0dXJlIiwic3ViIjoidGVzdC1zdWJqZWN0IiwiZW1haWwiOiJmaXh0dXJlQGV4YW1wbGUuaW52YWxpZCIsIm5vbmNlIjoidGVzdC1ub25jZSIsImlhdCI6MTc1MDAwMDAwMCwiZXhwIjo0MTAyNDQ0ODAwfQ.dD7DTKHmx2J7zkxo3ahHPpJiAzLykr3N-ANkSFWdnkY_3G6uY1zJVmFOM23yI0NIQwSjXAYbXg9DgPdpwqI0dQIam7btt89Xu7tNLrWMjsfrXajOB5iczLLSojOiGmm0610eeexZkrONrWZpZ3wHV1bxtrd67yfka-IcPkKV6kQNz_deO7GhvgzqEx-nvyfGa3vzWDkjx_04cozulsnesoez6FUHDPsY39D2sEZ36oZjn7c4Joy837YR6B3iorqTFpSJsXkc4TAB9l1pMbXR0GAF6yka7cuN8kLHvlDF-iy3pFX9OjvqpXteLDNFUZ4t0d1Yyrv5cpGsjSW95fhPUQ",
+  "jwks": {
+    "keys": [
+      {
+        "alg": "RS256",
+        "kid": "kaiser-test-only",
+        "kty": "RSA",
+        "use": "sig",
+        "n": "oe-0EfbTkW8W4lNauWbCcK9lIGqVAd27ei5Vmsmmekt8kZFfZ-aXjLYAdAu_DlvyZE2AHuNiWHMMUc7SVGw9x3vnIYQL8BY0wDwzyegum-i1DDR9Jl2IZWOR9HXGpCoVVxa4YIVf8AJRWHwvlB0LAY8QiKP_dO58v972A0lb8IJv2ubhcSAogCeXshcjwfoHOQoQKMIVEvUav_2Z9OgdMZaTGKS_UiP-6YQEYMTZiMp4ZIXIm2IuEh3efZ7jHNH3KlMp2KREWZJTf0UJBTUvfIl0vcWtHyK0aCDV8ygCZ-xfUOndb59w15GQeV1Pg9qpfU0ZrHwgcZca19lTOy-lsw",
+        "e": "AQAB"
+      }
+    ]
+  }
+}

@@ -1,0 +1,12 @@
+# Kaiser Slate — Neutral charcoal and steel blue.
+base = "kaiser-tallgeese"
+
+background = "#171B20"
+panel = "#1E252C"
+border = "#3E4954"
+foreground = "#D7DFE7"
+muted = "#93A1AF"
+accent = "#9CB3CD"
+success = "#A2BDAC"
+warning = "#CABA92"
+selection = "#303E4D"

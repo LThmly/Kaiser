@@ -1,0 +1,12 @@
+# Kaiser Forest — Deep green and moss.
+base = "kaiser-tallgeese"
+
+background = "#101914"
+panel = "#15211A"
+border = "#314B39"
+foreground = "#D9E7D8"
+muted = "#8CA38E"
+accent = "#8FC59A"
+success = "#B4D27F"
+warning = "#D8BD75"
+selection = "#273F30"
