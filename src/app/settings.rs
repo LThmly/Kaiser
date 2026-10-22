@@ -63,7 +63,9 @@ impl App {
             .character()
             .map_err(|error| error.to_string())?;
         self.ai.set_policy(settings.model.usage.clone())?;
-        self.fallback_provider = provider.map(|provider| provider.with_usage(self.ai.clone()));
+        self.fallback_provider = provider
+            .filter(|_| !self.demo_mode)
+            .map(|provider| provider.with_usage(self.ai.clone()));
         self.provider = match (&self.auth, &self.chatgpt) {
             (Some(store), Some(connection)) if connection.plan => Some(
                 Provider::chatgpt(
@@ -90,7 +92,11 @@ impl App {
         let result = (|| -> Result<(), String> {
             let (settings, theme) =
                 crate::config::load(&self.config_path, true).map_err(|error| error.to_string())?;
-            let provider = Provider::from_config(&settings.model)?;
+            let provider = if self.demo_mode {
+                None
+            } else {
+                Provider::from_config(&settings.model)?
+            };
             let themes =
                 crate::config::theme_names(&self.config_path).map_err(|error| error.to_string())?;
             self.apply_settings(settings, theme, provider, themes)

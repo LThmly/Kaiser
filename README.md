@@ -20,7 +20,7 @@ From a checkout, use `cargo install --path . --locked` or `sh scripts/install.sh
 3. Use `:login` and `:model` for AI chat. Press `i` to type a question and Enter to send it.
 4. Run `:generate-cards` to create flashcard drafts, or `:notes` to write notes.
 
-New installs start empty. Try `kaiser --demo` for a disposable example. Without a model, chat shows matching source excerpts.
+New installs start empty. `kaiser --demo` opens a disposable showcase with six notebooks and 84 flashcards. For a screenshot-ready workspace, run `kaiser --demo-view flashcards` (also `chat`, `notes`, or `home`). Demo sessions make no AI requests. Without a model, normal chat shows matching source excerpts.
 
 ## Navigation
 

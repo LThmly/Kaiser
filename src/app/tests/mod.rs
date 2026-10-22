@@ -10,7 +10,7 @@ use super::*;
 use crate::model::Citation;
 
 pub(super) fn selected_app() -> App {
-    let mut app = App::new(Library::demo(), None);
+    let mut app = App::new(Library::fixture(), None);
     app.action(Action::Notebook(0));
     app
 }

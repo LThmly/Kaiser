@@ -4,7 +4,7 @@ use ratatui::{Terminal, backend::TestBackend};
 #[test]
 fn chat_is_a_full_height_conversation_with_markdown_and_clickable_citations() {
     for (width, height) in [(58, 18), (120, 40)] {
-        let mut app = App::new(Library::demo(), None);
+        let mut app = App::new(Library::fixture(), None);
         app.action(Action::Notebook(0));
         let citation = app.library.book().messages.last().unwrap().citations[0].clone();
         app.library.book_mut().messages = vec![
@@ -49,7 +49,7 @@ fn chat_is_a_full_height_conversation_with_markdown_and_clickable_citations() {
 #[test]
 fn notebook_deletion_confirmation_and_empty_home_render_at_supported_sizes() {
     for (width, height) in [(58, 18), (120, 40)] {
-        let mut app = App::new(Library::demo(), None);
+        let mut app = App::new(Library::fixture(), None);
         app.modal = Some(Modal::DeleteNotebook {
             notebook: 0,
             query: String::new(),
@@ -87,7 +87,7 @@ fn notebook_deletion_confirmation_and_empty_home_render_at_supported_sizes() {
 }
 #[test]
 fn home_borders_use_theme_accents_while_main_preserves_its_original_color() {
-    let mut app = App::new(Library::demo(), None);
+    let mut app = App::new(Library::fixture(), None);
     let mut terminal = Terminal::new(TestBackend::new(120, 40)).unwrap();
     for name in crate::config::builtin_theme_names() {
         app.theme =
@@ -112,7 +112,7 @@ fn home_borders_use_theme_accents_while_main_preserves_its_original_color() {
 }
 #[test]
 fn notes_render_markdown_and_source_reader_does_not_add_a_workspace_tab() {
-    let mut app = App::new(Library::demo(), None);
+    let mut app = App::new(Library::fixture(), None);
     app.action(Action::Notebook(0));
     app.library.book_mut().notes = "# Topic\n\n**Strong** and `code`".into();
     app.open(Tab::Notes);
@@ -160,7 +160,7 @@ fn notes_render_markdown_and_source_reader_does_not_add_a_workspace_tab() {
 }
 #[test]
 fn home_lists_current_notebooks_and_opens_the_clicked_notebook() {
-    let mut app = App::new(Library::demo(), None);
+    let mut app = App::new(Library::fixture(), None);
     let mut terminal = Terminal::new(TestBackend::new(120, 40)).unwrap();
     terminal.draw(|frame| draw(frame, &mut app)).unwrap();
     let text: String = terminal
@@ -240,7 +240,7 @@ fn home_lists_current_notebooks_and_opens_the_clicked_notebook() {
 #[test]
 fn transparency_covers_all_theme_surfaces_and_can_be_disabled() {
     for name in ["tallgeese", "bagels", "kaiser"] {
-        let mut app = App::new(Library::demo(), None);
+        let mut app = App::new(Library::fixture(), None);
         app.theme =
             crate::config::load_theme(std::path::Path::new("/unused/config.toml"), name).unwrap();
         app.transparent_background = true;
@@ -298,7 +298,7 @@ fn transparency_covers_all_theme_surfaces_and_can_be_disabled() {
 #[test]
 fn bottom_status_bar_is_neutral_in_every_mode_and_theme() {
     for name in ["tallgeese", "bagels", "kaiser"] {
-        let mut app = App::new(Library::demo(), None);
+        let mut app = App::new(Library::fixture(), None);
         app.theme =
             crate::config::load_theme(std::path::Path::new("/unused/config.toml"), name).unwrap();
         let mut terminal = Terminal::new(TestBackend::new(120, 40)).unwrap();
@@ -322,7 +322,7 @@ fn bottom_status_bar_is_neutral_in_every_mode_and_theme() {
 
 #[test]
 fn empty_notebook_views_render_slashes_and_messages() {
-    let mut app = App::new(Library::demo(), None);
+    let mut app = App::new(Library::fixture(), None);
     app.action(Action::Notebook(1));
     app.library.book_mut().sources.clear();
     app.library.book_mut().messages.clear();
@@ -359,7 +359,7 @@ fn empty_notebook_views_render_slashes_and_messages() {
 
 #[test]
 fn flashcards_panel_replaces_context_and_remains_accessible_on_small_screens() {
-    let mut app = App::new(Library::demo(), None);
+    let mut app = App::new(Library::fixture(), None);
     app.action(Action::Notebook(0));
     for (width, height) in [(120, 40), (58, 18)] {
         app.focus = Focus::Flashcards;
@@ -387,7 +387,7 @@ fn flashcards_panel_replaces_context_and_remains_accessible_on_small_screens() {
 
 #[test]
 fn directory_label_does_not_recolor_the_workspace_border() {
-    let mut app = App::new(Library::demo(), None);
+    let mut app = App::new(Library::fixture(), None);
     app.action(Action::Notebook(0));
     app.library.book_mut().directory = std::path::PathBuf::from("/course");
     for width in [58, 120, 180] {
@@ -426,7 +426,7 @@ fn directory_label_does_not_recolor_the_workspace_border() {
 }
 #[test]
 fn notebook_directory_remains_visible_without_the_navigation_header() {
-    let mut app = App::new(Library::demo(), None);
+    let mut app = App::new(Library::fixture(), None);
     app.library.notebooks[0].directory = std::env::temp_dir().join("kaiser-course-one");
     app.library.notebooks[1].directory = std::env::temp_dir().join("kaiser-course-two");
     for width in [58, 120] {
@@ -447,7 +447,7 @@ fn notebook_directory_remains_visible_without_the_navigation_header() {
 
 #[test]
 fn configured_colors_reach_the_rendered_terminal() {
-    let mut app = App::new(Library::demo(), None);
+    let mut app = App::new(Library::fixture(), None);
     app.theme.accent = Color::Rgb(18, 58, 188);
     app.theme.background = Color::Rgb(1, 2, 3);
     app.theme.panel = Color::Rgb(4, 5, 6);
@@ -477,7 +477,7 @@ fn configured_colors_reach_the_rendered_terminal() {
 }
 #[test]
 fn colon_input_is_rendered_in_bottom_bar_without_covering_startup() {
-    let mut app = App::new(Library::demo(), None);
+    let mut app = App::new(Library::fixture(), None);
     app.modal = Some(Modal::Ex("notebook Biology".into()));
     let mut terminal = Terminal::new(TestBackend::new(120, 40)).unwrap();
     terminal.draw(|frame| draw(frame, &mut app)).unwrap();
@@ -491,7 +491,7 @@ fn colon_input_is_rendered_in_bottom_bar_without_covering_startup() {
 }
 #[test]
 fn colon_menu_opens_immediately_and_filters_descriptions() {
-    let mut app = App::new(Library::demo(), None);
+    let mut app = App::new(Library::fixture(), None);
     let mut terminal = Terminal::new(TestBackend::new(120, 40)).unwrap();
     app.modal = Some(Modal::Ex(String::new()));
     terminal.draw(|frame| draw(frame, &mut app)).unwrap();
@@ -530,7 +530,7 @@ fn colon_menu_opens_immediately_and_filters_descriptions() {
 }
 #[test]
 fn theme_names_complete_in_the_colon_menu() {
-    let mut app = App::new(Library::demo(), None);
+    let mut app = App::new(Library::fixture(), None);
     app.modal = Some(Modal::Ex("theme ".into()));
     app.themes.push("custom".into());
     let mut terminal = Terminal::new(TestBackend::new(120, 40)).unwrap();
@@ -590,7 +590,7 @@ fn citation_groups_keep_file_names_unique_and_show_spanning_pages() {
 }
 #[test]
 fn notebook_picker_previews_the_highlighted_match_without_opening_it() {
-    let mut app = App::new(Library::demo(), None);
+    let mut app = App::new(Library::fixture(), None);
     app.library.notebooks[0].notes = "# First preview\n\nFirst notebook details".into();
     app.library.notebooks[1].notes = "# Second preview\n\nSecond notebook details".into();
     app.modal = Some(Modal::SelectNotebook(String::new()));
@@ -640,7 +640,7 @@ fn notebook_picker_previews_the_highlighted_match_without_opening_it() {
 }
 #[test]
 fn leader_menu_fits_its_commands_without_the_old_extra_space() {
-    let mut app = App::new(Library::demo(), None);
+    let mut app = App::new(Library::fixture(), None);
     let mut terminal = Terminal::new(TestBackend::new(120, 40)).unwrap();
     terminal
         .draw(|frame| modal_view(frame, &mut app, Modal::Leader))
@@ -658,7 +658,7 @@ fn leader_menu_fits_its_commands_without_the_old_extra_space() {
 #[test]
 fn renders_all_screens_at_supported_sizes() {
     for (width, height) in [(20, 8), (58, 18), (85, 25), (120, 40), (180, 50)] {
-        let mut app = App::new(Library::demo(), None);
+        let mut app = App::new(Library::fixture(), None);
         let mut terminal = Terminal::new(TestBackend::new(width, height)).unwrap();
         terminal.draw(|f| draw(f, &mut app)).unwrap();
         app.action(Action::Notebook(0));
@@ -705,7 +705,7 @@ fn renders_all_screens_at_supported_sizes() {
 }
 #[test]
 fn card_browser_hides_the_definition_until_flipped() {
-    let mut app = App::new(Library::demo(), None);
+    let mut app = App::new(Library::fixture(), None);
     app.action(Action::Notebook(0));
     app.open(Tab::Cards);
     let mut terminal = Terminal::new(TestBackend::new(120, 40)).unwrap();

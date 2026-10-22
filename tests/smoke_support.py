@@ -2,6 +2,9 @@
 import json
 from pathlib import Path
 
+# Match the disambiguated keyboard protocol enabled by Kaiser's terminal loop.
+ESCAPE = b"\x1b[27u"
+
 
 def seed_library(path):
     path = Path(path)
@@ -19,7 +22,7 @@ def seed_library(path):
     systems = empty("Distributed systems")
     systems["sources"] = [
         {"id": 1, "name": "replication.md", "selected": True,
-         "content": Path(__file__).resolve().parents[1].joinpath("examples/replication.md").read_text()},
+         "content": "# Replication\n\nAsynchronous replication can let replicas serve stale reads.\n\nReplication lag is the delay between a write on the leader and its application on a replica.\n\nRead-your-writes consistency lets a client see its own completed writes.\n"},
         {"id": 2, "name": "consistency-notes.md", "selected": True,
          "content": "Read-your-writes consistency lets clients see their completed writes."},
         {"id": 3, "name": "practice-prompts.md", "selected": False,

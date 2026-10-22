@@ -1,6 +1,7 @@
 mod app;
 mod auth;
 mod config;
+mod demo;
 mod files;
 mod flashcards;
 mod import;
@@ -11,6 +12,8 @@ mod notes;
 mod progress;
 mod provider;
 mod retrieval;
+#[cfg(test)]
+mod test_support;
 mod ui;
 mod usage;
 
@@ -38,6 +41,7 @@ fn main() {
 
 fn run() -> Result<(), Box<dyn std::error::Error>> {
     let mut demo = false;
+    let mut demo_view = demo::View::default();
     let mut snapshot = false;
     let mut config_path = config::default_path();
     let mut explicit_config = false;
@@ -55,6 +59,13 @@ fn run() -> Result<(), Box<dyn std::error::Error>> {
     while let Some(arg) = args.next() {
         match arg.as_str() {
             "--demo" => demo = true,
+            "--demo-view" => {
+                demo_view = args
+                    .next()
+                    .ok_or("--demo-view needs home, chat, flashcards, or notes")?
+                    .parse()?;
+                demo = true;
+            }
             "--snapshot" => snapshot = true,
             "--config" => {
                 config_path = args.next().ok_or("--config needs a file path")?.into();
@@ -76,7 +87,7 @@ fn run() -> Result<(), Box<dyn std::error::Error>> {
             }
             "--help" | "-h" => {
                 println!(
-                    "Kaiser — a terminal study workspace.\n\nUsage: kaiser [--demo] [--data-dir PATH] [--config PATH] [--snapshot] [--size 120x40]\n\n  --demo       Disposable example library; never reads or writes your data\n  --data-dir   Store state.json in this directory\n  --config     Read configuration from this TOML file\n  --init-config  Create missing config/theme files, then exit\n  --check-config Validate configuration and theme, then exit\n  --snapshot   Print a plain-text preview and exit\n  --size       Preview dimensions (default 120x40)\n\nDefault config: ~/.config/kaiser/config.toml (or $XDG_CONFIG_HOME/kaiser/config.toml)\nEdit themes/kaiser-tallgeese.toml to customize colors.\n\nOptional model: [model] in config.toml; overrides: KAISER_API_URL (base URL ending /v1), KAISER_MODEL, KAISER_API_KEY\nConfigured models receive your question, recent conversation, and matching selected-source excerpts.\nWithout a model Kaiser performs local source lookup. Press your leader (default Space), then ? for help."
+                    "Kaiser — a terminal study workspace.\n\nUsage: kaiser [--demo] [--demo-view VIEW] [--data-dir PATH] [--config PATH] [--snapshot] [--size 120x40]\n\n  --demo       Showcase: six notebooks and 84 flashcards; no saved data or AI requests\n  --demo-view  Open home, chat, flashcards, or notes in the disposable demo\n  --data-dir   Store state.json in this directory\n  --config     Read configuration from this TOML file\n  --init-config  Create missing config/theme files, then exit\n  --check-config Validate configuration and theme, then exit\n  --snapshot   Print a plain-text preview and exit\n  --size       Preview dimensions (default 120x40)\n\nDefault config: ~/.config/kaiser/config.toml (or $XDG_CONFIG_HOME/kaiser/config.toml)\nEdit themes/kaiser-tallgeese.toml to customize colors.\n\nOptional model: [model] in config.toml; overrides: KAISER_API_URL (base URL ending /v1), KAISER_MODEL, KAISER_API_KEY\nConfigured models receive your question, recent conversation, and matching selected-source excerpts.\nWithout a model Kaiser performs local source lookup. Press your leader (default Space), then ? for help."
                 );
                 return Ok(());
             }
@@ -104,7 +115,12 @@ fn run() -> Result<(), Box<dyn std::error::Error>> {
     }
     let config_path = std::path::absolute(config_path)?;
     let (settings, theme) = config::load(&config_path, explicit_config)?;
-    let provider = provider::Provider::from_config(&settings.model).map_err(io::Error::other)?;
+    // Demo and snapshot sessions never activate configured API credentials or models.
+    let provider = if (!demo && !snapshot) || check_config {
+        provider::Provider::from_config(&settings.model).map_err(io::Error::other)?
+    } else {
+        None
+    };
     if check_config {
         println!(
             "Configuration valid: {}\nTheme: {}",
@@ -118,7 +134,7 @@ fn run() -> Result<(), Box<dyn std::error::Error>> {
     }
     let path = data_dir.join("state.json");
     let library = if demo || snapshot {
-        Library::demo()
+        demo::library()
     } else {
         Library::load(&path)?
     };
@@ -137,7 +153,7 @@ fn run() -> Result<(), Box<dyn std::error::Error>> {
         app.initialize_auth(auth::Store::new(data_dir.join("auth")));
     }
     if demo {
-        app.status = "DEMO · disposable library · all changes stay in this session".into();
+        demo::prepare(&mut app, demo_view);
     }
     if snapshot {
         let mut terminal = Terminal::new(TestBackend::new(size.0, size.1))?;

@@ -10,7 +10,7 @@ readme = "README.md"
 keywords = ["tui", "study", "flashcards", "learning", "notes"]
 categories = ["command-line-utilities"]
 include = [
-    "/src/**", "/assets/**", "/config/config.toml", "/config/themes/kaiser-*.toml", "/examples/**", "/tests/**",
+    "/src/**", "/assets/**", "/config/config.toml", "/config/themes/kaiser-*.toml", "/tests/fixtures/**",
     "/docs/**", "/Cargo.toml", "/Cargo.lock", "/LICENSE", "/README.md", "/CONTRIBUTING.md",
     "!**/[Aa][Gg][Ee][Nn][Tt][Ss]*.[Mm][Dd]",
     "!**/[Cc][Ll][Aa][Uu][Dd][Ee]*.[Mm][Dd]",

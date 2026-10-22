@@ -12,7 +12,7 @@ import sys
 import tempfile
 import termios
 import time
-from smoke_support import seed_library
+from smoke_support import ESCAPE, seed_library
 
 
 def main():
@@ -106,7 +106,7 @@ with (path.parent.parent if path.parent.name == "themes" else path.parent).joinp
             wait_for(lambda: b"38;2;185;166;255" in captured, "live theme preview before Enter")
             drain()
             captured.clear()
-            send(b"\x1b")
+            send(ESCAPE)
             wait_for(lambda: b"38;2;186;218;85" in captured, "restoring theme after cancelling preview")
             send(b":theme kaiser-l\t\t\x1b[Z\t\r")
             wait_for(lambda: b"38;2;185;166;255" in captured, "filtered forward/reverse theme completion with wraparound")

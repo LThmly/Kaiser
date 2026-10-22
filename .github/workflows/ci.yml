@@ -17,9 +17,18 @@ jobs:
       - run: cargo clippy --locked --all-targets -- -D warnings
       - run: cargo test --locked
       - run: cargo build --locked --release
-      - if: runner.os == 'Linux'
-        run: |
-          python3 scripts/check_public_files.py
-          python3 tests/tui_smoke.py target/release/kaiser
-          python3 tests/config_smoke.py target/release/kaiser
-          python3 tests/logo_smoke.py target/release/kaiser
+      - name: Audit public files
+        if: runner.os == 'Linux'
+        run: python3 scripts/check_public_files.py
+      - name: Study workflow terminal check
+        if: runner.os == 'Linux'
+        run: python3 tests/tui_smoke.py target/release/kaiser
+      - name: Configuration terminal check
+        if: runner.os == 'Linux'
+        run: python3 tests/config_smoke.py target/release/kaiser
+      - name: Logo terminal check
+        if: runner.os == 'Linux'
+        run: python3 tests/logo_smoke.py target/release/kaiser
+      - name: Demo terminal check
+        if: runner.os == 'Linux'
+        run: python3 tests/demo_smoke.py target/release/kaiser

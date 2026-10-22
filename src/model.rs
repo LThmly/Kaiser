@@ -169,52 +169,6 @@ impl Library {
             selected: true,
         });
     }
-    pub fn demo() -> Self {
-        let content = include_str!("../examples/replication.md").to_owned();
-        let citation = Citation { source_id: 1, source_name: "replication.md".into(), line: 5, passage: "Replication copies data across multiple nodes. A leader accepts writes and sends updates to replicas. With asynchronous replication, the leader acknowledges a write before every replica has received it. This reduces write latency, but a replica can temporarily serve stale reads.".into() };
-        let make_card = |id, front: &str, back: &str, draft| Card {
-            id,
-            front: front.into(),
-            back: back.into(),
-            citation: Some(citation.clone()),
-            draft,
-            history: vec![],
-        };
-        let systems = Notebook {
-            name: "Distributed systems".into(),
-            directory: current_directory(),
-            sources: vec![
-                Source { id: 1, name: "replication.md".into(), content, selected: true },
-                Source { id: 2, name: "consistency-notes.md".into(), selected: true, content: "# Consistency notes\n\nRead-your-writes consistency ensures a client can see its own completed writes. Routing that client's reads to the leader is one way to achieve it.\n\nEventual consistency means that, if no new updates occur, replicas converge to the same value. It does not promise that every read immediately returns the latest write.\n\nA network partition prevents some nodes from communicating. Systems must decide whether to reject some requests or allow responses that may be inconsistent.\n".into() },
-                Source { id: 3, name: "practice-prompts.md".into(), selected: false, content: "# Practice\n\nA user edits their profile and then refreshes the page. The old name appears. Explain how replication lag could cause this and propose a way to provide read-your-writes consistency.\n".into() },
-            ],
-            messages: vec![
-                Message { role: "user".into(), text: "Why can a replica return a stale read?".into(), citations: vec![] },
-                Message { role: "assistant".into(), text: "In asynchronous replication, the leader can acknowledge a write before a replica receives the update. A read sent to that replica during the delay can return the older value. [1]\n\nTry explaining what would happen if you updated your profile and immediately refreshed the page.".into(), citations: vec![citation.clone()] },
-            ],
-            cards: vec![
-                make_card(4, "Why can asynchronous replication produce stale reads?", "The leader may acknowledge a write before a replica receives it. Reads from that replica can return an older value.", false),
-                make_card(5, "What does read-your-writes consistency guarantee?", "A client can see its own completed writes in subsequent reads.", false),
-                make_card(6, "How could you avoid showing an old profile immediately after an edit?", "Route the user's subsequent reads to the leader, or wait until the chosen replica has caught up.", true),
-            ],
-            notes: "# Replication\n\nUnderstanding: replicas trade freshness for lower latency and availability.\n\nQuestion to revisit: when is a stale read acceptable?\n\nPractice: explain the profile-refresh example without looking at the sources.".into(),
-        };
-        // Fix the source for the read-your-writes card; all provenance is explicit.
-        let mut systems = systems;
-        systems.cards[1].citation = Some(Citation { source_id: 2, source_name: "consistency-notes.md".into(), line: 3, passage: "Read-your-writes consistency ensures a client can see its own completed writes. Routing that client's reads to the leader is one way to achieve it.".into() });
-        systems.cards[2].citation = Some(Citation { source_id: 1, source_name: "replication.md".into(), line: 17, passage: "Read-your-writes consistency ensures you can see your own completed updates. One approach is to route your reads to the leader after you write. Another is to track a write position and only read from replicas that have reached that position.".into() });
-        Self {
-            version: 1,
-            review_activity: vec![],
-            next_id: 7,
-            active: 0,
-            notebooks: vec![
-                systems,
-                Notebook::empty("Biology".into()),
-                Notebook::empty("Reading room".into()),
-            ],
-        }
-    }
 }
 
 #[cfg(test)]
@@ -222,7 +176,7 @@ mod tests {
     use super::*;
     #[test]
     fn retrieval_respects_selection_and_notebook_boundaries() {
-        let mut lib = Library::demo();
+        let mut lib = Library::fixture();
         assert!(!lib.book().passages("replication stale").is_empty());
         lib.book_mut()
             .sources
@@ -234,7 +188,7 @@ mod tests {
     }
     #[test]
     fn rating_records_recall_without_scheduling() {
-        let mut card = Library::demo().book().cards[0].clone();
+        let mut card = Library::fixture().book().cards[0].clone();
         card.rate(3, 100);
         card.rate(1, 200);
         assert_eq!(card.history.len(), 2);
@@ -248,7 +202,7 @@ mod tests {
 
     #[test]
     fn legacy_schedules_are_ignored_while_cards_and_recall_history_survive() {
-        let mut value = serde_json::to_value(Library::demo()).unwrap();
+        let mut value = serde_json::to_value(Library::fixture()).unwrap();
         let card = &mut value["notebooks"][0]["cards"][0];
         card["due"] = serde_json::json!(u64::MAX);
         card["interval"] = serde_json::json!(86400);
@@ -268,7 +222,7 @@ mod tests {
     fn imported_utf8_source_is_selected_and_independent_of_original_file() {
         let path = std::env::temp_dir().join(format!("kaiser-import-{}.md", std::process::id()));
         fs::write(&path, "# Learning\n\nA useful example: λ and 中文.\n").unwrap();
-        let mut library = Library::demo();
+        let mut library = Library::fixture();
         library.active = 1;
         library.import(&path).unwrap();
         fs::remove_file(&path).unwrap();
@@ -280,7 +234,7 @@ mod tests {
     }
     #[test]
     fn old_notebooks_default_to_the_launch_directory() {
-        let mut value = serde_json::to_value(Library::demo()).unwrap();
+        let mut value = serde_json::to_value(Library::fixture()).unwrap();
         for notebook in value["notebooks"].as_array_mut().unwrap() {
             notebook.as_object_mut().unwrap().remove("directory");
         }
@@ -314,7 +268,7 @@ mod tests {
         let root =
             std::env::temp_dir().join(format!("kaiser-test-{}-{}", std::process::id(), now()));
         let path = root.join("state.json");
-        let mut lib = Library::demo();
+        let mut lib = Library::fixture();
         lib.book_mut().notes = "Unicode: λ 中文 🦀".into();
         lib.book_mut().directory = root.join("course notes");
         lib.save(&path).unwrap();

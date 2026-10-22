@@ -13,7 +13,7 @@ import tempfile
 import termios
 import time
 import zipfile
-from smoke_support import seed_library
+from smoke_support import ESCAPE, seed_library
 
 
 def main():
@@ -65,15 +65,15 @@ def main():
             assert b"Study queue" not in captured, "Removed queue is still visible"
             send(b":ai-usage\r")
             wait_for(lambda: b"USAGE " in captured, "local AI usage dashboard")
-            send(b"\x1b[6~\x1b[H\x1b")
+            send(b"\x1b[6~\x1b[H" + ESCAPE)
             time.sleep(0.05)
             send(b":")
             wait_for(lambda: b"Save and quit" in captured, "automatic colon command suggestions")
-            send(b"\x1b")
+            send(ESCAPE)
             time.sleep(0.05)
             send(b" n")  # Leader + lowercase n must create, not select.
             wait_for(lambda: b"New notebook" in captured, "new notebook shortcut")
-            send(b"\x1b")
+            send(ESCAPE)
             time.sleep(0.05)
             send(b"\x1b[102;9u\t\t\t\r")
             wait_for(lambda: b"replication.md" in captured, "selecting a notebook")
@@ -81,11 +81,11 @@ def main():
             captured.clear()
             send(b"i\x1b[110;9u")  # Open new-notebook menu while typing in a notebook.
             wait_for(lambda: b"New notebook" in captured, "new notebook shortcut inside notebook")
-            send(b"\x1b")
+            send(ESCAPE)
             time.sleep(0.05)
             send(b" e\x1b[B\re")
             wait_for(lambda: b"Shape a study card" in captured, "opening a card from the Flashcards panel")
-            send(b"\x1b")
+            send(ESCAPE)
             time.sleep(0.05)
             send(b" c")
             send(b"iWhat is replication lag?\r")
@@ -113,7 +113,7 @@ def main():
             markdown = "# Concepts\n\n**Replication** copies data.\n- [x] Reviewed"
             send(markdown.replace("\n", "\r").encode())
             wait_for(lambda: state().get("notes") == markdown, "cursor-based Markdown notes saved")
-            send(b"\x1b")
+            send(ESCAPE)
             time.sleep(0.1)
             drain()
             captured.clear()
@@ -122,7 +122,7 @@ def main():
             assert b"**Replication**" not in captured
             send(b":read\r")
             wait_for(lambda: b"Source reader" in captured, "separate source popup")
-            send(b"\x1b")
+            send(ESCAPE)
             time.sleep(0.1)
             assert state()["notes"] == markdown
             saved_at = path.stat().st_mtime_ns
@@ -139,7 +139,7 @@ def main():
             send(b" fDisposable\x04")
             wait_for(lambda: b"Permanently removes notebook data." in captured, "notebook deletion confirmation")
             assert len(json.loads(path.read_text())["notebooks"]) == 4
-            send(b"\x1b")
+            send(ESCAPE)
             time.sleep(0.15)
             assert len(json.loads(path.read_text())["notebooks"]) == 4
             drain()
@@ -149,7 +149,7 @@ def main():
             send(b"y")
             wait_for(lambda: len(json.loads(path.read_text())["notebooks"]) == 3, "confirmed notebook deletion persisted")
             assert all(book["name"] != "Disposable" for book in json.loads(path.read_text())["notebooks"])
-            send(b"\x1b")
+            send(ESCAPE)
             time.sleep(0.15)
             send(b":q\r")
             # Keep consuming terminal output while the final redraw/restoration runs.

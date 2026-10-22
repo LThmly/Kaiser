@@ -15,6 +15,23 @@ From a source checkout, run `cargo install --path . --locked`. On Linux and macO
 
 To update, rerun the same install command. To uninstall a Cargo installation, run `cargo uninstall kaiser`; your local study data is preserved. Rust is required to build/install from source. A Rust toolchain is not needed to run the resulting executable.
 
+## Screenshot demo
+
+```sh
+kaiser --demo
+kaiser --demo-view flashcards
+kaiser --demo-view chat
+kaiser --demo-view notes
+```
+
+The demo contains six fictional notebooks, 84 cited flashcards, sample source text, Markdown notes, and a prepared conversation. `--demo` opens Home; `--demo-view` opens the selected workspace directly and implies `--demo`. The Flashcards view begins with an answer revealed. Use the normal notebook picker, tabs, theme previews, and editor to arrange your screenshot.
+
+Your configured theme is used. A terminal around 140 columns by 40 rows gives the panels room; `:theme kaiser-bagels` or `:theme kaiser-main` can change the look for the session. Press Space f to browse the other notebooks or Space h to return to Home.
+
+Demo source filenames and content are illustrative; no PDFs or personal documents are loaded. Notebook changes are discarded on exit. Saved accounts, study data, and AI usage storage are not opened, and configured API providers are disabled. Chat questions use local source lookup; the initial conversation is a scripted example. Explicit config/theme editing commands still operate on the selected config files.
+
+For a plain-text preview rather than an interactive session, combine a demo view with `--snapshot --size 140x40`.
+
 ## A first study session
 
 1. Launch `kaiser` and press `<super> + n` or type `:new` to create your first notebook. `<super> + f` opens the notebook picker after you have notebooks.

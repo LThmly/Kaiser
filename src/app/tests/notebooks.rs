@@ -21,7 +21,7 @@ fn chatgpt_account_and_model_menus_cycle_and_do_not_require_a_notebook() {
         .unwrap(),
     )
     .unwrap();
-    let mut app = App::new(Library::demo(), None);
+    let mut app = App::new(Library::fixture(), None);
     app.initialize_auth(crate::auth::Store::new(root.clone()));
     assert!(app.provider.as_ref().unwrap().uses_chatgpt());
     app.execute_ex("account");
@@ -111,7 +111,7 @@ fn asynchronous_reply_stays_in_original_notebook() {
 
 #[test]
 fn startup_requires_explicit_notebook_selection_and_picker_can_cancel() {
-    let mut library = Library::demo();
+    let mut library = Library::fixture();
     library.active = 1;
     let mut app = App::new(library, None);
     assert!(!app.notebook_selected);
@@ -292,7 +292,7 @@ fn super_f_switches_notebooks_from_every_workspace_and_menu() {
 #[test]
 fn leader_n_creates_and_leader_f_selects_before_and_after_opening_a_notebook() {
     for prefix in [' ', ','] {
-        let mut app = App::new(Library::demo(), None);
+        let mut app = App::new(Library::fixture(), None);
         app.leader = prefix;
         for _ in 0..2 {
             let count = app.library.notebooks.len();
@@ -342,7 +342,7 @@ fn home_shortcuts_leave_notebooks_and_allow_reopening_them() {
 
 #[test]
 fn super_n_creates_notebooks_from_startup_typing_and_card_editor() {
-    let mut app = App::new(Library::demo(), None);
+    let mut app = App::new(Library::fixture(), None);
     for editing_card in [false, true] {
         if editing_card {
             app.action(Action::Notebook(0));
@@ -367,7 +367,7 @@ fn super_n_creates_notebooks_from_startup_typing_and_card_editor() {
 
 #[test]
 fn study_actions_on_startup_open_picker_without_mutating_a_notebook() {
-    let mut app = App::new(Library::demo(), None);
+    let mut app = App::new(Library::fixture(), None);
     let count = app.library.book().cards.len();
     leader(&mut app, 'm');
     assert!(matches!(app.modal, Some(Modal::SelectNotebook(_))));
@@ -382,7 +382,7 @@ fn study_actions_on_startup_open_picker_without_mutating_a_notebook() {
 
 #[test]
 fn colon_commands_work_on_startup_and_require_confirmation() {
-    let mut app = App::new(Library::demo(), None);
+    let mut app = App::new(Library::fixture(), None);
     press(&mut app, KeyCode::Char(':'));
     press(&mut app, KeyCode::Char('q'));
     assert!(!app.quit);

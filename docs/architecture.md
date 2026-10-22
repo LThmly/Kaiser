@@ -19,6 +19,8 @@ Kaiser is a single Rust binary. It uses a synchronous terminal event loop and ba
 | `src/ui/dialogs.rs` | Pickers, command/leader menus, confirmation and editing dialogs |
 | `src/ui/widgets.rs`, `status.rs` | Shared borders, text layout, empty states, neutral status surfaces |
 | `src/config/` | Settings schema/defaults, loading/initialization, theme registry/inheritance |
+| `src/demo/` | Disposable screenshot showcase used by demo and snapshot modes |
+| `src/test_support.rs`, `tests/` | Synthetic test fixtures and real-terminal checks; never loaded by normal sessions |
 | `src/model.rs` | Serializable library, notebooks, sources, conversations, cards, atomic state-file writes |
 | `src/import.rs`, `files.rs` | Portable text/document/image extraction and import path completion |
 | `src/retrieval.rs` | Source scoping, complete/focused context, bounded multi-stage plans |

@@ -15,7 +15,7 @@ The debug binary is `target/debug/kaiser` (`kaiser.exe` on Windows). After editi
 
 To install the checkout as the `kaiser` terminal command, run `cargo install --path . --locked`, or `sh scripts/install.sh` on Unix. Fresh libraries are empty; example notebooks are limited to explicit demo/snapshot mode and synthetic test fixtures.
 
-`--demo` keeps study data ephemeral. To test persistence without touching a real library, use `--data-dir PATH` and `--config PATH` pointing to temporary directories. `--snapshot --size 120x40` renders a plain-text home screen without opening an interactive terminal.
+`--demo` opens the fictional showcase and keeps study data ephemeral. `--demo-view chat`, `--demo-view flashcards`, and `--demo-view notes` open populated workspaces for screenshots. Demo/snapshot sessions do not activate configured API providers. To test persistence without touching a real library, use `--data-dir PATH` and `--config PATH` pointing to temporary directories. `--snapshot --size 120x40` renders a plain-text home screen without opening an interactive terminal.
 
 ## Checks
 
@@ -34,9 +34,12 @@ On Unix, Python 3 runs the terminal smoke checks. Each accepts an optional binar
 python3 tests/tui_smoke.py
 python3 tests/config_smoke.py
 python3 tests/logo_smoke.py
+python3 tests/demo_smoke.py
 ```
 
 CI checks Rust on Linux, macOS, and Windows, and runs terminal smoke checks on Linux against the release binary. Add `--offline` to Cargo commands when dependencies are already cached. Model tests use local fixtures and injected responses, without real accounts or inference usage.
+
+Shared Rust fixtures live in `src/test_support.rs` and compile only in tests. Python terminal fixtures live in `tests/smoke_support.py`; use its disambiguated Escape key when scripting navigation. Screenshot content lives in `src/demo/`.
 
 Before publishing, stage the intended files and run `python3 scripts/check_public_files.py`. It checks tracked files for private runtime paths, agent instruction files, symlinks, and common credential patterns; Git ignore rules alone are not a substitute for inspecting the publication set. The Cargo package also has an explicit file allowlist. `tests/fixtures/chatgpt-identity.json` is a synthetic test token signed with a disposable key, not an account credential.
 

@@ -42,7 +42,7 @@ mod tests {
 
     #[test]
     fn reviews_deduplicate_persist_and_old_libraries_start_empty() {
-        let mut library = Library::demo();
+        let mut library = Library::fixture();
         assert!(record(&mut library, 20, 4));
         assert!(!record(&mut library, 20, 4));
         assert!(record(&mut library, 21, 4));
