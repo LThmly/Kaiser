@@ -2,6 +2,14 @@
 
 A Rust terminal workspace for learning from your sources. Import PDFs, documents, and images, ask questions with source citations, review flashcards, and write Markdown notes.
 
+![Kaiser home screen with the logo and six notebooks](docs/screenshots/home.png)
+
+| Chat | Flashcards |
+| --- | --- |
+| ![Source-grounded chat with citations](docs/screenshots/chat.png) | ![Flashcard browser with a question and card list](docs/screenshots/flashcards.png) |
+| **Markdown notes** | **Keyboard navigation** |
+| ![Rendered Markdown notes with checklists, code, and a table](docs/screenshots/notes.png) | ![Leader key navigation menu over the home screen](docs/screenshots/navigation.png) |
+
 ## Install
 
 Requires stable Rust and Cargo.
